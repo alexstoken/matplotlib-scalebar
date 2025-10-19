@@ -190,6 +190,7 @@ class ScaleBar(Artist):
         box_alpha=None,
         scale_loc=None,
         label_loc=None,
+        path_effects=None, 
         font_properties=None,
         label_formatter=None,
         scale_formatter=None,
@@ -290,6 +291,10 @@ class ScaleBar(Artist):
             (default: rcParams['scalebar.label_loc'] or ``top``).
             If ``none`` the label is not shown.
         :type label_loc: :class:`str`
+        
+        arg path_effects: mathplotlib path effects to scale bar and text, specified as a list of effects.
+            (default : None)
+        :type path_effects: :class:`List`
 
         :arg font_properties: font properties of the label text, specified
             either as dict or `fontconfig <http://www.fontconfig.org/>`_
@@ -370,6 +375,7 @@ class ScaleBar(Artist):
         self.box_alpha = box_alpha
         self.scale_loc = scale_loc
         self.label_loc = label_loc
+        self.path_effects = path_effects
         self.scale_formatter = scale_formatter
         self.font_properties = font_properties
         self.fixed_value = fixed_value
@@ -450,6 +456,7 @@ class ScaleBar(Artist):
         fixed_value = self.fixed_value
         fixed_units = self.fixed_units or self.units
         rotation = _get_value("rotation", "horizontal").lower()
+        path_effects = _get_value("path_effects", [])
         if rotation.endswith("-only"):
             rotation = rotation[:-5]
         else:  # Check aspect ratio.
@@ -462,7 +469,7 @@ class ScaleBar(Artist):
         label = self.label
 
         # Create text properties
-        textprops = {"color": color, "rotation": rotation}
+        textprops = {"color": color, "rotation": rotation, 'path_effects': path_effects}
         if font_properties is not None:
             textprops["fontproperties"] = font_properties
 
@@ -509,6 +516,7 @@ class ScaleBar(Artist):
             )
 
         scale_bar_box = AuxTransformBox(ax.transData)
+        scale_rect.set_path_effects(path_effects)
         scale_bar_box.add_artist(scale_rect)
 
         # Create scale text
