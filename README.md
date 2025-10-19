@@ -160,6 +160,7 @@ scalebar = ScaleBar(
         box_alpha=None,
         scale_loc=None,
         label_loc=None,
+        path_effects=None,
         font_properties=None,
         label_formatter=None,
         scale_formatter=None,
@@ -321,6 +322,10 @@ Location of the label with respect to the scale bar.
 Either `bottom`, `top`, `left`, `right`, `none`.
 Default: `None`, value from matplotlibrc or `top`.
 If `"none"`, no label is shown.
+
+### path_effects
+
+Use matplotlib [path effects](https://matplotlib.org/stable/users/explain/artists/patheffects_guide.html), useful for styles like text with outline. Default: `None`, which applies no path effects. 
 
 ### font_properties
 
